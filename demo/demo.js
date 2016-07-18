@@ -38,73 +38,29 @@ class Demo extends Component {
 		});
 	}
 
-	stepper(value, min, max, revert = false) {
-		if (
-			typeof value !== 'number' && 
-			typeof min !== 'number' && 
-			typeof max !== 'number'
-		) return 0;
-		const steps = {
+	valueMapper(min, max) {
+		return {
 			'0': {
-				convert: (percentage, range) => Math.round(
+				toValue: (percentage, range) => Math.round(
 					(percentage < range ? percentage : range) * 100 * 2
 				),
-				revert: value => value / 2 / 100,
+				toPos: value => value / 2 / 100,
 			},
 			'.25': {
-				convert: (percentage, range) => Math.round(
+				toValue: (percentage, range) => Math.round(
 					(percentage < range ? percentage : range) * 100
 				),
-				revert: value => value / 100,
+				toPos: value => value / 100,
 			},
 			'.5': {
-				convert: (percentage, range, value) => Math.round(
+				toValue: (percentage, range, value) => Math.round(
 					percentage / range * (max - value)
 				),
-				revert: (value, range, span) => (
+				toPos: (value, range, span) => (
 					value / span * range
 				),
 			}
 		};
-		const ranges = Object.keys(steps);
-		let returnValue;
-		let i = 0;
-		let remain = value;
-		let currRange = 0;
-		let nextRange;
-		let rangeSpan;
-		if (!revert) {
-			returnValue = min;
-			while (i < ranges.length && remain > 0) {
-				nextRange = (parseFloat(ranges[i+1]) || 1);
-				rangeSpan = nextRange - currRange;
-				returnValue += steps[ranges[i]].convert(remain, rangeSpan, returnValue);
-				remain -= rangeSpan; 
-				currRange = nextRange;
-				i++;
-			}
-			return returnValue;
-		} else {
-			let compValue = min;
-			let compRangeValue;
-			returnValue = 0;
-			while (i < ranges.length && remain > 0) {
-				nextRange = (parseFloat(ranges[i+1]) || 1);
-				rangeSpan = nextRange - currRange;
-				compRangeValue = steps[ranges[i]].convert(rangeSpan, rangeSpan, value - remain);
-				compValue += compRangeValue;
-				if (compRangeValue >= remain) {
-					returnValue += steps[ranges[i]].revert(remain, rangeSpan, compRangeValue);
-					remain = 0;
-				} else {
-					returnValue += rangeSpan;
-					remain -= compRangeValue;
-				}
-				currRange = nextRange;
-				i++;
-			}
-			return returnValue;
-		}
 	}
 
 	render() {
@@ -125,7 +81,7 @@ class Demo extends Component {
 						max={1000}
 						value={hor}
 						onChange={this.handleChangeHor}
-						step={this.stepper} />
+						valueMapping={this.valueMapper} />
 					<div className="value">Value: {hor}</div>
 					<hr/>
 
