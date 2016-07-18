@@ -31,7 +31,10 @@ class Slider extends Component {
 	static propTypes = {
 		min: PropTypes.number,
 		max: PropTypes.number,
-		step: PropTypes.number,
+		step: PropTypes.oneOfType([
+			PropTypes.number,
+			PropTypes.func,
+		]),
 		value: PropTypes.number,
 		orientation: PropTypes.string,
 		onChange: PropTypes.func,
@@ -100,8 +103,13 @@ class Slider extends Component {
   getPositionFromValue = (value) => {
   	let percentage, pos;
   	let { limit } = this.state;
-  	let { min, max } = this.props;
-  	percentage = (value - min) / (max - min);
+  	let { min, max, step } = this.props;
+  	if (typeof step === 'function') {
+  		percentage = step(value, min, max, true);
+  		if (percentage > 1) percentage = 1;
+  	} else {
+  		percentage = (value - min) / (max - min);
+  	}
   	pos = Math.round(percentage * limit);
 
   	return pos;
@@ -114,10 +122,20 @@ class Slider extends Component {
   	percentage = (maxmin(pos, 0, limit) / (limit || 1));
 
   	if (orientation === 'horizontal') {
-  		value = step * Math.round(percentage * (max - min) / step) + min;
+  		if (typeof step === 'function') {
+  			value = step(percentage, min, max);
+  		} else {
+  			value = step * Math.round(percentage * (max - min) / step) + min;
+  		}
   	} else {
-  		value = max - (step * Math.round(percentage * (max - min) / step) + min);
+  		if (typeof step === 'function') {
+	  		value = max - step(percentage, min, max);
+	  	} else {
+	  		value = max - (step * Math.round(percentage * (max - min) / step) + min);
+	  	}
   	}
+		if (value < min) value = min;
+		else if (value > max) value = max;
 
   	return value;
   }
