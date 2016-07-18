@@ -31,12 +31,10 @@ class Slider extends Component {
 	static propTypes = {
 		min: PropTypes.number,
 		max: PropTypes.number,
-		step: PropTypes.oneOfType([
-			PropTypes.number,
-			PropTypes.func,
-		]),
+		step: PropTypes.number,
 		value: PropTypes.number,
 		orientation: PropTypes.string,
+		valueMapping: PropTypes.func,
 		onChange: PropTypes.func,
 		className: PropTypes.string,
 	}
@@ -45,6 +43,12 @@ class Slider extends Component {
 		min: 0,
 		max: 100,
 		step: 1,
+		valueMapping: (min, max) => ({
+			'0': {
+				toValue: (percentage, range, value) => (percentage * (max - min)),
+				toPos: (value, range, span) => Math.abs(value / (max - min)),
+			},
+		}),
 		value: 0,
 		orientation: 'horizontal',
 	}
@@ -103,41 +107,79 @@ class Slider extends Component {
   getPositionFromValue = (value) => {
   	let percentage, pos;
   	let { limit } = this.state;
-  	let { min, max, step } = this.props;
-  	if (typeof step === 'function') {
-  		percentage = step(value, min, max, true);
-  		if (percentage > 1) percentage = 1;
-  	} else {
-  		percentage = (value - min) / (max - min);
-  	}
+  	let { min, max } = this.props;
+  	
+  	percentage = this.mapPositionToValue(value, min, max);
+  	if (percentage > 1) percentage = 1;
   	pos = Math.round(percentage * limit);
 
   	return pos;
   }
 
+  mapPositionToValue = (value, min, max) => {
+  	const valueMapping = this.props.valueMapping(min, max);
+		const ranges = Object.keys(valueMapping);
+		let mappedPos = 0;
+		let i = 0;
+		let remain = value - min;
+		let currRange = 0;
+		let nextRange;
+		let rangeSpan;
+		let compValue = min;
+		let compRangeValue;
+		while (i < ranges.length && remain > 0) {
+			nextRange = (parseFloat(ranges[i+1]) || 1);
+			rangeSpan = nextRange - currRange;
+			compRangeValue = valueMapping[ranges[i]].toValue(rangeSpan, rangeSpan, value - remain);
+			compValue += compRangeValue;
+			if (compRangeValue >= remain) {
+				mappedPos += valueMapping[ranges[i]].toPos(remain, rangeSpan, compRangeValue);
+				remain = 0;
+			} else {
+				mappedPos += rangeSpan;
+				remain -= compRangeValue;
+			}
+			currRange = nextRange;
+			i++;
+		}
+		return mappedPos;
+  }
+
   getValueFromPosition = (pos) => {
-  	let percentage, value;
+  	let percentage;
   	let { limit } = this.state;
   	let { orientation, min, max, step } = this.props;
   	percentage = (maxmin(pos, 0, limit) / (limit || 1));
-
+  	let value = this.mapValueToPosition(percentage, min, max);
   	if (orientation === 'horizontal') {
-  		if (typeof step === 'function') {
-  			value = step(percentage, min, max);
-  		} else {
-  			value = step * Math.round(percentage * (max - min) / step) + min;
-  		}
+  		value = step * Math.round((value - min) / step) + min;
   	} else {
-  		if (typeof step === 'function') {
-	  		value = max - step(percentage, min, max);
-	  	} else {
-	  		value = max - (step * Math.round(percentage * (max - min) / step) + min);
-	  	}
+  		value = max - (step * Math.round((value - min) / step) + min);
   	}
 		if (value < min) value = min;
 		else if (value > max) value = max;
 
   	return value;
+  }
+
+  mapValueToPosition = (percentage, min, max) => {
+  	const valueMapping = this.props.valueMapping(min, max);
+		const ranges = Object.keys(valueMapping);
+		let mappedValue = min;
+		let i = 0;
+		let remain = percentage;
+		let currRange = 0;
+		let nextRange;
+		let rangeSpan;
+		while (i < ranges.length && remain > 0) {
+			nextRange = (parseFloat(ranges[i+1]) || 1);
+			rangeSpan = nextRange - currRange;
+			mappedValue += valueMapping[ranges[i]].toValue(remain, rangeSpan, mappedValue);
+			remain -= rangeSpan; 
+			currRange = nextRange;
+			i++;
+		}
+		return mappedValue;
   }
 
   position = (e) => {
