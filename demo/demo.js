@@ -38,6 +38,75 @@ class Demo extends Component {
 		});
 	}
 
+	stepper(value, min, max, revert = false) {
+		if (
+			typeof value !== 'number' && 
+			typeof min !== 'number' && 
+			typeof max !== 'number'
+		) return 0;
+		const steps = {
+			'0': {
+				convert: (percentage, range) => Math.round(
+					(percentage < range ? percentage : range) * 100 * 2
+				),
+				revert: value => value / 2 / 100,
+			},
+			'.25': {
+				convert: (percentage, range) => Math.round(
+					(percentage < range ? percentage : range) * 100
+				),
+				revert: value => value / 100,
+			},
+			'.5': {
+				convert: (percentage, range, value) => Math.round(
+					percentage / range * (max - value)
+				),
+				revert: (value, range, span) => (
+					value / span * range
+				),
+			}
+		};
+		const ranges = Object.keys(steps);
+		let returnValue;
+		let i = 0;
+		let remain = value;
+		let currRange = 0;
+		let nextRange;
+		let rangeSpan;
+		if (!revert) {
+			returnValue = min;
+			while (i < ranges.length && remain > 0) {
+				nextRange = (parseFloat(ranges[i+1]) || 1);
+				rangeSpan = nextRange - currRange;
+				returnValue += steps[ranges[i]].convert(remain, rangeSpan, returnValue);
+				remain -= rangeSpan; 
+				currRange = nextRange;
+				i++;
+			}
+			return returnValue;
+		} else {
+			let compValue = min;
+			let compRangeValue;
+			returnValue = 0;
+			while (i < ranges.length && remain > 0) {
+				nextRange = (parseFloat(ranges[i+1]) || 1);
+				rangeSpan = nextRange - currRange;
+				compRangeValue = steps[ranges[i]].convert(rangeSpan, rangeSpan, value - remain);
+				compValue += compRangeValue;
+				if (compRangeValue >= remain) {
+					returnValue += steps[ranges[i]].revert(remain, rangeSpan, compRangeValue);
+					remain = 0;
+				} else {
+					returnValue += rangeSpan;
+					remain -= compRangeValue;
+				}
+				currRange = nextRange;
+				i++;
+			}
+			return returnValue;
+		}
+	}
+
 	render() {
 		let { hor, ver, neg, flo } = this.state;
 		return (
@@ -53,9 +122,10 @@ class Demo extends Component {
 					<h4>Basic Slider</h4>
 					<Slider
 						min={0}
-						max={100}
+						max={1000}
 						value={hor}
-						onChange={this.handleChangeHor} />
+						onChange={this.handleChangeHor}
+						step={this.stepper} />
 					<div className="value">Value: {hor}</div>
 					<hr/>
 
