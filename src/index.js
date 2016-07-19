@@ -36,6 +36,7 @@ class Slider extends Component {
 		orientation: PropTypes.string,
 		valueMapping: PropTypes.func,
 		onChange: PropTypes.func,
+		onChangeComplete: PropTypes.func,
 		className: PropTypes.string,
 	}
 
@@ -83,20 +84,28 @@ class Slider extends Component {
   handleStart = () => {
   	document.addEventListener('mousemove', this.handleDrag);
   	document.addEventListener('mouseup', this.handleEnd);
+    document.addEventListener('touchend', this.handleEnd);
   }
 
   handleDrag = (e) => {
   	this.handleNoop(e);
   	let value, { onChange } = this.props;
   	if (!onChange) return;
-
   	value = this.position(e);
   	onChange && onChange(value);
   }
 
-  handleEnd = () => {
+  handleEnd = (e) => {
   	document.removeEventListener('mousemove', this.handleDrag);
   	document.removeEventListener('mouseup', this.handleEnd);
+    document.removeEventListener('touchend', this.handleEnd);
+
+  	this.handleDrag(e);
+
+  	let value, { onChangeComplete } = this.props;
+  	if (!onChangeComplete) return;
+  	value = this.position(e);
+    onChangeComplete && onChangeComplete(value);
   }
 
   handleNoop = (e) => {
@@ -236,8 +245,7 @@ class Slider extends Component {
   		<div
 	  		ref="slider"
 	  		className={cx('rangeslider ', 'rangeslider-' + orientation, className)}
-	  		onMouseDown={this.handleDrag}
-	  		onClick={this.handleNoop}>
+	  		onMouseDown={this.handleStart}>
 	  		<div
 		  		ref="fill"
 		  		className="rangeslider__fill"
@@ -246,6 +254,7 @@ class Slider extends Component {
 		  		ref="handle"
 		  		className="rangeslider__handle"
 					onMouseDown={this.handleStart}
+					onTouchStart={ this.handleStart }
 					onTouchMove={this.handleDrag}
 					onClick={this.handleNoop}
 		  		style={handleStyle} />
