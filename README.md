@@ -93,20 +93,22 @@ import Slider from 'react-rangeslider-extended'
 	orientation={String}
   value={Number}
   onChange={Function}
+  onChangeComplete={Function}
   valueMapping={Function} />
 ```
 
 ### Props
 
-Prop   	 			 |  Default      |  Description
----------   	 |  -------      |  -----------
-`min`     		 |  0				   	 |  minimum value the slider can hold
-`max`    			 |  100				   |  maximum value the slider can hold
-`step` 				 |  1          	 |  step in which increments/decrements have to be made
-`orientation`  |  horizontal   |  orientation of the slider
-`value`  			 |  -            |  current value of the slider
-`onChange`  	 |  -            |  function the slider takes, current value of the slider as the first parameter
-`valueMapping` |  default func |  function returning an object that defines segments and `toValue` and `toPos` methods to controll position to value (and vice versa) mapping
+Prop   	 			 			|  Default      |  Description
+---------   	 			|  -------      |  -----------
+`min`     		 			|  0				   	|  minimum value the slider can hold
+`max`    			 			|  100				  |  maximum value the slider can hold
+`step` 				 			|  1          	|  step in which increments/decrements have to be made
+`orientation`  			|  horizontal   |  orientation of the slider
+`value`  			 			|  -            |  current value of the slider
+`onChange`  	 			|  -            |  function the slider takes, current value of the slider as the first parameter
+`onChangeComplete`	|  -            |  function the slider takes and fires after interaction has ended, current value of the slider as the first parameter
+`valueMapping` 			|  default func |  function returning an object that defines segments and `toValue` and `toPos` methods to controll position to value (and vice versa) mapping
 
 ### Value Mapping
 The `valueMapping` prop takes a function taking the arguments `min` and `max` that returns an object with definitions of segments on the slider’s range and how positions within these segments are mapped to values. 
