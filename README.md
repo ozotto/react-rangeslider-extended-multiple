@@ -164,7 +164,7 @@ Feel free to contribute. Submit a Pull Request or open an issue for further disc
 - Tests using Enzyme
 
 ## License
-MIT &copy; [whoisandie](http://oliverwehn.com)
+MIT &copy; [whoisandie](http://whoisandie.com) & [Oliver Wehn](http://oliverwehn.com)
 
 [npm_img]: https://img.shields.io/npm/v/react-rangeslider-extended.svg?style=flat-square
 [npm_site]: https://www.npmjs.org/package/react-rangeslider-extended
