@@ -51,7 +51,7 @@ function start() {
 
 		resolve: {
 			alias: {
-				'react-rangeslider$': paths.src,
+				'react-rangeslider-extended$': paths.src,
 			},
 		},
 
@@ -132,7 +132,7 @@ function deploy() {
 
 		resolve: {
 			alias: {
-				'react-rangeslider$': paths.src,
+				'react-rangeslider-extended$': paths.src,
 			},
 		},
 
