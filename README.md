@@ -7,7 +7,7 @@ Check out [examples](https://oliverwehn.github.io/react-rangeslider-extended).
 Install via `npm` (use `--save` to include it in your package.json)
 
 ```bash
-$ npm install react-rangeslider --save
+$ npm install react-rangeslider-extended --save
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ React Rangeslider is bundled with a single slider component. You can require the
 
 ```js
 var React = require('react');
-var Slider = require('react-rangeslider');
+var Slider = require('react-rangeslider-extended');
 
 var Volume = React.createClass({
 	getInitialState: function(){
@@ -49,7 +49,7 @@ module.exports = Volume;
 
 ```js
 import React, { Component } from 'react';
-import Slider from 'react-rangeslider';
+import Slider from 'react-rangeslider-extended';
 
 export default Volume extends Component {
   constructor(props, context) {
@@ -83,7 +83,7 @@ Rangeslider is bundled with a single component, that accepts data and callbacks 
 ### Component
 
 ```js
-import Slider from 'react-rangeslider'
+import Slider from 'react-rangeslider-extended'
 
 // inside render
 <Slider

@@ -1,7 +1,7 @@
 import './demo.less';
 
 import React, { Component } from 'react';
-import Slider from 'react-rangeslider';
+import Slider from 'react-rangeslider-extended';
 
 class Demo extends Component {
 	constructor(props, context) {
