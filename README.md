@@ -1,7 +1,7 @@
-# React Rangeslider [![NPM Package][npm_img]][npm_site]
-> A lightweight responsive react range slider component.
+# React Rangeslider Extended [![NPM Package][npm_img]][npm_site]
+> A lightweight responsive react range slider component forked from [whoisandie/react-rangeslider](https://github.com/whoisandie/react-rangeslider).
 
-Check out [examples](https://whoisandie.github.io/react-rangeslider).
+Check out [examples](https://oliverwehn.github.io/react-rangeslider-extended).
 
 ## Install
 Install via `npm` (use `--save` to include it in your package.json)
@@ -92,7 +92,8 @@ import Slider from 'react-rangeslider'
 	step={String or Number}
 	orientation={String}
   value={Number}
-  onChange={Function} />
+  onChange={Function}
+  valueMapping={Function} />
 ```
 
 ### Props
@@ -105,7 +106,54 @@ Prop   	 			 |  Default      |  Description
 `orientation`  |  horizontal   |  orientation of the slider
 `value`  			 |  -            |  current value of the slider
 `onChange`  	 |  -            |  function the slider takes, current value of the slider as the first parameter
+`valueMapping` |  default func |  function returning an object that defines segments and `toValue` and `toPos` methods to controll position to value (and vice versa) mapping
 
+### Value Mapping
+The `valueMapping` prop takes a function taking the arguments `min` and `max` that returns an object with definitions of segments on the slider’s range and how positions within these segments are mapped to values. 
+This allows for example to let you set lower values more precisely and higher ones in larger steps. For each segment there is `toValue` (position to value) and a `toPos` (value to position) function defined. 
+The keys of the definition object define the segements start position. See example below.
+```js
+...
+
+class myComponent extends React.Component {
+	...
+
+	valueMapping = (min, max) => ({
+		'0': {
+			toValue: (percentage, range) => Math.round(
+				(percentage < range ? percentage : range) * 100 * 2
+			),
+			toPos: value => value / 2 / 100,
+		},
+		'.25': {
+			toValue: (percentage, range) => Math.round(
+				(percentage < range ? percentage : range) * 100
+			),
+			toPos: value => value / 100,
+		},
+		'.5': {
+			toValue: (percentage, range, value) => Math.round(
+				percentage / range * (max - value)
+			),
+			toPos: (value, range, span) => (
+				value / span * range
+			),
+		}
+	});
+
+	render() {
+		return (
+			<Slider
+				min={0}
+				max={1000}
+				value={this.state.value}
+				onChange={this.handleChange}
+				valueMapping={this.valueMapping} />
+			<div className="value">Value: {this.state.value}</div>
+		);
+	}
+}
+```
 
 ## Issues
 Feel free to contribute. Submit a Pull Request or open an issue for further discussion.
@@ -116,7 +164,7 @@ Feel free to contribute. Submit a Pull Request or open an issue for further disc
 - Tests using Enzyme
 
 ## License
-MIT &copy; [whoisandie](http://whoisandie.com)
+MIT &copy; [whoisandie](http://oliverwehn.com)
 
-[npm_img]: https://img.shields.io/npm/v/react-rangeslider.svg?style=flat-square
-[npm_site]: https://www.npmjs.org/package/react-rangeslider
+[npm_img]: https://img.shields.io/npm/v/react-rangeslider-extended.svg?style=flat-square
+[npm_site]: https://www.npmjs.org/package/react-rangeslider-extended
