@@ -109,7 +109,17 @@ function build() {
 	        test: /\.js?$/,
 	        exclude: /node_modules/,
 	        loader: 'babel?stage=0',
-	      }
+	      },
+				{
+        	test: /\.scss$/,
+					exclude: /node_modules/,
+					loaders: [
+						'style', 
+						'css',
+          	'autoprefixer?browsers=last 3 versions',
+          	'sass?outputStyle=compressed',
+          ],
+				},
 	    ]
 	  },
 
