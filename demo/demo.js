@@ -27,6 +27,10 @@ class Demo extends Component {
 		});
 	}
 
+	handleChangeSegComplete = (value) => {
+		console.log('Change completed with ' + value + '.');
+	}
+
 	handleChangeVer = (value) => {
 		this.setState({
 			ver: value,
@@ -106,6 +110,7 @@ class Demo extends Component {
 						max={1000}
 						value={seg}
 						onChange={this.handleChangeSeg}
+						onChangeComplete={this.handleChangeSegComplete}
 						valueMapping={this.valueMapper} />
 					<div className="value">Value: {seg}</div>
 					<hr/>
