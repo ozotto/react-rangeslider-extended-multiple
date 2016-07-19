@@ -1,4 +1,4 @@
-import './demo.less';
+import './demo.scss';
 
 import React, { Component } from 'react';
 import Slider from 'react-rangeslider-extended';
@@ -88,8 +88,8 @@ class Demo extends Component {
 		return (
 			<div className="wrapper">
 				<header>
-					<h1>React Rangeslider</h1>
-					<p>A lightweight react component that acts as a HTML5 input range slider polyfill. Shown below are just examples, please refer <a href="http://github.com/whoisandie/react-rangeslider">Github</a> for docs.</p>
+					<h1>React Rangeslider Extended</h1>
+					<p>A lightweight react component that acts as a HTML5 input range slider polyfill. Shown below are just examples, please refer <a href="http://github.com/oliverwehn/react-rangeslider-extended">Github</a> for docs.</p>
 				</header>
 
 				<section id="examples">
@@ -147,6 +147,7 @@ class Demo extends Component {
 				<footer>
 					<p>Project is under Open Source <a href="#">MIT License</a></p>
 					<p>Built with &hearts; &#8226; 2015 &copy; <a href="http://whoisandie.com">whoisandie</a></p>
+					<p>Extended with &hearts; &#8226; 2016 &copy; <a href="http://oliverwehn.com">Oliver Wehn</a></p>
 				</footer>
 			</div>
 		);

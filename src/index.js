@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import React, { PropTypes, Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import cx from 'classnames';

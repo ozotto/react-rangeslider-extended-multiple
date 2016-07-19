@@ -17,7 +17,7 @@ var common = {
 	entry: path.resolve(paths.demo, 'index'),
 
 	resolve: {
-		extensions: ['', '.js', '.less'],
+		extensions: ['', '.js', '.scss'],
 	}
 };
 
@@ -70,9 +70,14 @@ function start() {
 					include: [paths.demo, paths.src],
 				},
 				{
-					test: /\.less$/,
+        	test: /\.scss$/,
 					exclude: /node_modules/,
-					loaders: ['style', 'css', 'less'],
+					loaders: [
+						'style', 
+						'css',
+          	'autoprefixer?browsers=last 3 versions',
+          	'sass?outputStyle=expanded',
+          ],
 				},
 			]
 		},
@@ -94,7 +99,7 @@ function build() {
 		entry: path.resolve(paths.src, 'index'),
 
 	  output: {
-	    library: 'ReactRangeslider',
+	    library: 'ReactRangesliderExtended',
 	    libraryTarget: 'umd'
 	  },
 
@@ -144,9 +149,9 @@ function deploy() {
 	        loaders: ['babel?stage=0'],
 	      },
 	      {
-	        test: /\.less$/,
+	        test: /\.scss$/,
 	        exclude: /node_modules/,
-	        loaders: ['style', 'css', 'less']
+	        loaders: ['style', 'css', 'sass']
 	      }
 	    ]
 	  },
