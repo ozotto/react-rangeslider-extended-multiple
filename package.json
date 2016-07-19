@@ -17,11 +17,12 @@
   "keywords": [
     "rangeslider",
     "react-rangeslider",
+    "react-rangeslider-extended",
     "input",
     "range",
     "react"
   ],
-  "author": "whoisandie",
+  "author": "oliverwehn",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oliverwehn/react-rangeslider-extended/issues"
