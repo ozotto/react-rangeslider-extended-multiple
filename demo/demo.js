@@ -8,6 +8,7 @@ class Demo extends Component {
 		super(props, context);
 		this.state = {
 			hor: 10,
+			seg: 20,
 			ver: 50,
 			flo: 10.2,
 			neg: -10,
@@ -17,6 +18,12 @@ class Demo extends Component {
 	handleChangeHor = (value) => {
 		this.setState({
 			hor: value
+		});
+	}
+
+	handleChangeSeg = (value) => {
+		this.setState({
+			seg: value
 		});
 	}
 
@@ -63,8 +70,17 @@ class Demo extends Component {
 		};
 	}
 
+	valueToCurr = (value) => {
+	  let formatted = Math.round(parseFloat(value) * 100) / 100;
+	  const segments = (`${formatted}`).split('.');
+	  if (segments.length === 1) segments.push('00');
+	  if (segments[1].length < 2) segments[1] += '0'.repeat(2 - segments[1].length);
+	  formatted = segments.join(',');
+	  return formatted;
+	}
+
 	render() {
-		let { hor, ver, neg, flo } = this.state;
+		let { hor, seg, ver, neg, flo } = this.state;
 		return (
 			<div className="wrapper">
 				<header>
@@ -78,11 +94,20 @@ class Demo extends Component {
 					<h4>Basic Slider</h4>
 					<Slider
 						min={0}
-						max={1000}
+						max={100}
 						value={hor}
-						onChange={this.handleChangeHor}
-						valueMapping={this.valueMapper} />
+						onChange={this.handleChangeHor} />
 					<div className="value">Value: {hor}</div>
+					<hr/>
+
+					<h4>Segmented Slider with Custom Value Mapping per Segment</h4>
+					<Slider
+						min={0}
+						max={1000}
+						value={seg}
+						onChange={this.handleChangeSeg}
+						valueMapping={this.valueMapper} />
+					<div className="value">Value: {seg}</div>
 					<hr/>
 
 					<h4>Negative Values</h4>
