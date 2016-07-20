@@ -66,31 +66,31 @@ function start() {
 			],
 			loaders: [
 				{
-					test: /\.js?$/,
-					loaders: ['react-hot', 'babel?stage=0'],
-					include: [paths.demo, paths.src],
-				},
-				{
         	test: /\.scss$/,
 					exclude: /node_modules/,
 					loaders: [
 						'style', 
 						'css',
-          	'autoprefixer?browsers=last 3 versions',
-          	'sass?outputStyle=expanded',
-          ],
+						'autoprefixer-loader?browsers=last 3 versions',
+						'sass-loader?outputStyle=expanded'
+					],
+				},
+				{
+					test: /\.js?$/,
+					loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=stage-0,presets[]=react',],
+					include: [paths.demo, paths.src],
 				},
 			]
 		},
 
 		plugins: [
-		new webpack.DefinePlugin({
-			'process.env': {
-				'NODE_ENV': JSON.stringify('development'),
-			}
-		}),
-		new webpack.NoErrorsPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
+			new webpack.DefinePlugin({
+				'process.env': {
+					'NODE_ENV': JSON.stringify('development'),
+				}
+			}),
+			new webpack.NoErrorsPlugin(),
+			new webpack.HotModuleReplacementPlugin(),
 		],
 	});
 }
@@ -107,11 +107,6 @@ function build() {
 
 	  module: {
 	    loaders: [
-	      {
-	        test: /\.js?$/,
-	        exclude: /node_modules/,
-	        loader: 'babel?stage=0',
-	      },
 				{
         	test: /\.scss$/,
 					exclude: /node_modules/,
@@ -120,6 +115,14 @@ function build() {
 						'css-loader!autoprefixer-loader?browsers=last 3 versions!sass-loader?outputStyle=compressed'
 					),
 				},
+	      {
+	        test: /\.js?$/,
+	        exclude: /node_modules/,
+	        loader: 'babel',
+	        query: {
+		        presets: ['es2015', 'stage-0', 'react'],
+		      }
+	      },
 			],
 	  },
 
