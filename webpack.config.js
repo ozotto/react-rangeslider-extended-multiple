@@ -7,6 +7,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var COMPRESS = process.argv.indexOf('-p') >= 0;
 
 var config;
 var paths = {
@@ -112,7 +113,7 @@ function build() {
 					exclude: /node_modules/,
 					loader: ExtractTextPlugin.extract(
 						'style-loader', 
-						'css-loader!autoprefixer-loader?browsers=last 3 versions!sass-loader?outputStyle=compressed'
+						'css-loader!autoprefixer-loader?browsers=last 3 versions!sass-loader?outputStyle=' + (COMPRESS ? 'compressed' : 'expanded')
 					),
 				},
 	      {
@@ -128,7 +129,7 @@ function build() {
 
     // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
     plugins: [
-        new ExtractTextPlugin("ReactRangesliderExtended.css"),
+        new ExtractTextPlugin(COMPRESS ? 'styles.min.css' : 'styles.css'),
     ],
 
 	  externals: [
