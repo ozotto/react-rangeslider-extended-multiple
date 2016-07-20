@@ -1,0 +1,1 @@
+import ReactRangesliderExtended from './lib/ReactRangesliderExtended';
