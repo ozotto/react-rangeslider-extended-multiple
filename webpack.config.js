@@ -3,6 +3,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
@@ -99,7 +100,8 @@ function build() {
 		entry: path.resolve(paths.src, 'index'),
 
 	  output: {
-	    library: 'ReactRangesliderExtended',
+	  	path: __dirname + '/lib',
+	  	library: 'ReactRangesliderExtended',
 	    libraryTarget: 'umd'
 	  },
 
@@ -113,15 +115,18 @@ function build() {
 				{
         	test: /\.scss$/,
 					exclude: /node_modules/,
-					loaders: [
-						'style', 
-						'css',
-          	'autoprefixer?browsers=last 3 versions',
-          	'sass?outputStyle=compressed',
-          ],
+					loader: ExtractTextPlugin.extract(
+						'style-loader', 
+						'css-loader!autoprefixer-loader?browsers=last 3 versions!sass-loader?outputStyle=compressed'
+					),
 				},
-	    ]
+			],
 	  },
+
+    // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
+    plugins: [
+        new ExtractTextPlugin("ReactRangesliderExtended.css"),
+    ],
 
 	  externals: [
 	    {
