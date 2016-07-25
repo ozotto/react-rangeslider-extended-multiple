@@ -130,6 +130,11 @@ function build() {
     // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
     plugins: [
         new ExtractTextPlugin(COMPRESS ? 'styles.min.css' : 'styles.css'),
+				new webpack.DefinePlugin({
+					'process.env': {
+						'NODE_ENV': JSON.stringify('production'),
+					}
+				}),
     ],
 
 	  externals: [
