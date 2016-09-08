@@ -7,7 +7,7 @@ Check out [examples](https://oliverwehn.github.io/react-rangeslider-extended).
 Install via `npm` (use `--save` to include it in your package.json)
 
 ```bash
-$ npm install react-rangeslider-extended --save
+$ npm install react-rangeslider-extended-multiple --save
 ```
 
 ## Usage
