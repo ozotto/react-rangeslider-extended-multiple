@@ -231,8 +231,10 @@ class Slider extends Component {
   }
 
   render() {
-  	let dimension, direction, position, coords, fillStyle, handleStyle;
+  	let dimension, direction, position, coords, fillStyle, fillStyle2, handleStyle;
   	let { value, orientation, className } = this.props;
+
+    let posZero, coordZero;
 
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
@@ -243,6 +245,36 @@ class Slider extends Component {
   	fillStyle = {[dimension]: `${coords.fill}px`};
   	handleStyle = {[direction]: `${coords.handle}px`};
 
+    posZero = this.getPositionFromValue(0);
+    coordZero = this.coordinates(posZero);
+
+    let fillSize, posLeft, back; 
+
+    if(value > 0 ){
+        fillSize = coords.fill - coordZero.fill;
+        posLeft  = coordZero.fill;
+        back = '#27ae60';
+        console.log('PosZero: '+posLeft);
+    }else{
+        fillSize = coordZero.fill - coords.fill;
+        posLeft = coords.handle + 15;
+        back = '#ff3232';
+    }
+
+    /*let disableFill = 'initial';
+    if(value < 0 ) disableFill = 'none';*/
+
+
+
+/*    let fillSize = coords.fill - coordZero.fill
+let fillSize2 = coordZero.fill - coords.fill*/
+    
+
+    fillStyle = { [dimension]: `${ fillSize }px`, [direction]: `${ posLeft }px` , background: `${back}` }
+    //fillStyle2 = { [dimension]: `${fillSize2}px`, [direction]: `${coordZero.handle}px` , display: `${disableFill2}`   }
+
+
+
   	return (
   		<div
 	  		ref="slider"
@@ -252,6 +284,7 @@ class Slider extends Component {
 		  		ref="fill"
 		  		className="rangeslider__fill"
 		  		style={fillStyle} />
+        
 	  		<div
 		  		ref="handle"
 		  		className="rangeslider__handle"

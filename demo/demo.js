@@ -87,68 +87,21 @@ class Demo extends Component {
 		let { hor, seg, ver, neg, flo } = this.state;
 		return (
 			<div className="wrapper">
-				<header>
-					<h1>React Rangeslider Extended</h1>
-					<p>A lightweight react component that acts as a HTML5 input range slider polyfill. Shown below are just examples, please refer <a href="http://github.com/oliverwehn/react-rangeslider-extended">Github</a> for docs.</p>
-				</header>
-
+				
 				<section id="examples">
-					<h2>Examples</h2>
-
-					<h4>Basic Slider</h4>
+					
+					<h4>Slider</h4>
 					<Slider
-						min={0}
+						min={-100}
 						max={100}
 						value={hor}
 						onChange={this.handleChangeHor} />
 					<div className="value">Value: {hor}</div>
 					<hr/>
 
-					<h4>Segmented Slider with Custom Value Mapping per Segment</h4>
-					<Slider
-						min={0}
-						max={1000}
-						value={seg}
-						onChange={this.handleChangeSeg}
-						onChangeComplete={this.handleChangeSegComplete}
-						valueMapping={this.valueMapper} />
-					<div className="value">Value: {seg}</div>
-					<hr/>
-
-					<h4>Negative Values</h4>
-					<Slider
-						min={-20}
-						max={0}
-						value={neg}
-						onChange={this.handleChangeNeg} />
-					<div className="value">Value: {neg}</div>
-					<hr/>
-
-					<h4>Floating Point</h4>
-					<Slider
-						min={10}
-						max={11}
-						step={0.1}
-						value={flo}
-						onChange={this.handleChangeFlo} />
-					<div className="value">Value: {flo}</div>
-					<hr/>
-
-					<h4>Orientation &amp; Custom Styles</h4>
-					<Slider
-						min={0}
-						max={100}
-						value={ver}
-						orientation="vertical"
-						onChange={this.handleChangeVer} />
-					<div className="value">Value: {ver}</div>
 				</section>
 
-				<footer>
-					<p>Project is under Open Source <a href="#">MIT License</a></p>
-					<p>Built with &hearts; &#8226; 2015 &copy; <a href="http://whoisandie.com">whoisandie</a></p>
-					<p>Extended with &hearts; &#8226; 2016 &copy; <a href="http://oliverwehn.com">Oliver Wehn</a></p>
-				</footer>
+				
 			</div>
 		);
 	}
