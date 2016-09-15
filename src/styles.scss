@@ -36,6 +36,37 @@
 		border-radius: 10px;
 		top: 0;
 	}
+	.rangeslider__scale{
+		width: 1px;
+	    height: 8px;
+	    margin-top: 16px;
+	    background: black;
+	    position: absolute;
+	}
+	.rangeslider__scale_text{
+		margin-top: 17px;
+		position: absolute;
+		font-size: 10px;
+		font-weight: 200;
+	}
+	.rangeslider__comparator0{
+		margin-top: 3px;
+	    position: absolute;
+	    width: 0px;
+	    height: 0;
+	    border-left: 6px solid transparent;
+	    border-right: 6px solid transparent;
+	    border-bottom: 6px solid black;
+	}
+	.rangeslider__comparator1{
+		margin-top: 12px;
+	    position: absolute;
+	    width: 0px;
+	    height: 0;
+	    border-left: 6px solid transparent;
+	    border-right: 6px solid transparent;
+	    border-top: 6px solid black;
+	}
 	.rangeslider__handle {
 		width: 40px;
 		height: 40px;

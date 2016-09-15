@@ -40,6 +40,9 @@ class Slider extends Component {
 		onChange: PropTypes.func,
 		onChangeComplete: PropTypes.func,
 		className: PropTypes.string,
+    scale: PropTypes.array,
+    diffColor : PropTypes.bool,
+    comparator : PropTypes.array,
 	}
 
 	static defaultProps = {
@@ -54,6 +57,10 @@ class Slider extends Component {
 		}),
 		value: 0,
 		orientation: 'horizontal',
+    /*diffColor: true,
+    scale: [100, 0, -100],
+    comparator: [50, -50]*/
+    
 	}
 
 	state = {
@@ -230,11 +237,76 @@ class Slider extends Component {
   	};
   }
 
-  render() {
-  	let dimension, direction, position, coords, fillStyle, fillStyle2, handleStyle;
-  	let { value, orientation, className } = this.props;
+  generateScale = (scale) => {
+    let design;
 
-    let posZero, coordZero;
+    design = scale.map(function(obj, index){
+      
+      let value   = this.getPositionFromValue(obj);     
+      let coord   = this.coordinates(value);
+      let handle  = 20;
+      let display = 'block'
+      if(obj == -100) handle = 0; 
+      if(obj == -100 || obj == 100) display = 'none';
+
+      let axe     = { 'left': `${coord.handle + handle}px`, 'display': `${display}` }
+      let text    = { 'left': `${coord.handle + handle}px` }
+
+       return(
+        <div key={index}>
+          <div
+            ref="scale"
+            className="rangeslider__scale"
+            style={axe} /> 
+          <div
+            ref="scale"
+            className="rangeslider__scale_text"
+            style={text}>{ obj }</div>        
+        </div>
+       );
+
+    },this)
+
+    return design;
+  }
+
+  generateComparator = (comparator) => {
+    let design;
+
+    let handle0, handle1  = 14; // size handle minus size triangle
+    
+    if(comparator[0] == -100 || comparator[0] == -100 ) handle0 = 0;
+    if(comparator[1] == 100 || comparator[1] == 100) handle1 = 25;
+    
+    let value0  = this.getPositionFromValue(comparator[0])
+    let coord0  = this.coordinates(value0);
+    
+    let value1  = this.getPositionFromValue(comparator[1])
+    let coord1  = this.coordinates(value1);    
+    
+    let style0  = { 'left': `${coord0.handle + handle0}px` }
+    let style1  = { 'left': `${coord1.handle + handle1}px` }
+
+    design = (
+      <div>
+        <div
+            ref="scale"
+            className="rangeslider__comparator0"
+            style={style0}/>
+        <div
+            ref="scale"
+            className="rangeslider__comparator1"
+            style={style1}/>
+      </div>
+    )
+
+    return design;
+  }
+
+
+  render() {
+  	let dimension, direction, position, coords, fillStyle, handleStyle;
+  	let { value, orientation, className, scale, diffColor, comparator } = this.props;
 
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
@@ -245,35 +317,39 @@ class Slider extends Component {
   	fillStyle = {[dimension]: `${coords.fill}px`};
   	handleStyle = {[direction]: `${coords.handle}px`};
 
-    posZero = this.getPositionFromValue(0);
-    coordZero = this.coordinates(posZero);
+    //Color Fill 
+    if(diffColor){
+      let fillSize, posLeft, back; 
+      let value0, coord0;
 
-    let fillSize, posLeft, back; 
+      value0 = this.getPositionFromValue(0);     
+      coord0 = this.coordinates(value0);
 
-    if(value > 0 ){
-        fillSize = coords.fill - coordZero.fill;
-        posLeft  = coordZero.fill;
-        back = '#27ae60';
-        //console.log('PosZero: '+posLeft);
-    }else{
-        fillSize = coordZero.fill - coords.fill;
-        posLeft = coords.handle + 15;
-        back = '#ff3232';
+      if(value > 0 ){
+          fillSize = coords.fill - coord0.fill;
+          posLeft  = coord0.fill;
+          back = '#27ae60';
+          
+      }else{
+          fillSize = coord0.fill - coords.fill;
+          posLeft = coords.handle + 20;
+          back = '#ff3232';
+      }
+      
+      fillStyle = { [dimension]: `${ fillSize }px`, [direction]: `${ posLeft }px` , 'background': `${back}`, 'borderRadius': '0px' }
     }
-
-    /*let disableFill = 'initial';
-    if(value < 0 ) disableFill = 'none';*/
-
-
-
-/*    let fillSize = coords.fill - coordZero.fill
-let fillSize2 = coordZero.fill - coords.fill*/
     
-
-    fillStyle = { [dimension]: `${ fillSize }px`, [direction]: `${ posLeft }px` , background: `${back}` }
-    //fillStyle2 = { [dimension]: `${fillSize2}px`, [direction]: `${coordZero.handle}px` , display: `${disableFill2}`   }
-
-
+    //Scale 
+    let scales
+    if(typeof scale !== 'undefined'){
+      if(scale.length > 0) scales = this.generateScale(scale);
+    }
+    
+    //Comparator
+    let comparators
+    if(typeof comparator !== 'undefined'){
+      if(comparator.length > 0) comparators = this.generateComparator(comparator);
+    }
 
   	return (
   		<div
@@ -284,7 +360,8 @@ let fillSize2 = coordZero.fill - coords.fill*/
 		  		ref="fill"
 		  		className="rangeslider__fill"
 		  		style={fillStyle} />
-        
+        { scales }
+        { comparators }
 	  		<div
 		  		ref="handle"
 		  		className="rangeslider__handle"

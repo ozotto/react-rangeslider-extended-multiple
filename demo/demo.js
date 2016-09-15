@@ -7,11 +7,13 @@ class Demo extends Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
-			hor: 10,
+			hor: 50,
 			seg: 20,
 			ver: 50,
 			flo: 10.2,
 			neg: -10,
+			valuesScale: [-100,0,100, 50, -50],
+			comparator: [-80, 70]
 		};
 	}
 
@@ -84,7 +86,7 @@ class Demo extends Component {
 	}
 
 	render() {
-		let { hor, seg, ver, neg, flo } = this.state;
+		let { hor, seg, ver, neg, flo, valuesScale, comparator } = this.state;
 		return (
 			<div className="wrapper">
 				
@@ -95,9 +97,13 @@ class Demo extends Component {
 						min={-100}
 						max={100}
 						value={hor}
+						scale={valuesScale}
+						comparator = {comparator}
+						diffColor = {true}
 						onChange={this.handleChangeHor} />
-					<div className="value">Value: {hor}</div>
 					<hr/>
+					<div className="value">Value: {hor}</div>
+					
 
 				</section>
 
