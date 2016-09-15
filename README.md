@@ -110,52 +110,6 @@ Prop   	 			 			|  Default      |  Description
 `onChangeComplete`	|  -            |  function the slider takes and fires after interaction has ended, current value of the slider as the first parameter
 `valueMapping` 			|  default func |  function returning an object that defines segments and `toValue` and `toPos` methods to controll position to value (and vice versa) mapping
 
-### Value Mapping
-The `valueMapping` prop takes a function taking the arguments `min` and `max` that returns an object with definitions of segments on the slider’s range and how positions within these segments are mapped to values. 
-This allows for example to let you set lower values more precisely and higher ones in larger steps. For each segment there is `toValue` (position to value) and a `toPos` (value to position) function defined. 
-The keys of the definition object define the segements start position. See example below.
-```js
-...
-
-class myComponent extends React.Component {
-	...
-
-	valueMapping = (min, max) => ({
-		'0': {
-			toValue: (percentage, range) => Math.round(
-				(percentage < range ? percentage : range) * 100 * 2
-			),
-			toPos: value => value / 2 / 100,
-		},
-		'.25': {
-			toValue: (percentage, range) => Math.round(
-				(percentage < range ? percentage : range) * 100
-			),
-			toPos: value => value / 100,
-		},
-		'.5': {
-			toValue: (percentage, range, value) => Math.round(
-				percentage / range * (max - value)
-			),
-			toPos: (value, range, span) => (
-				value / span * range
-			),
-		}
-	});
-
-	render() {
-		return (
-			<Slider
-				min={0}
-				max={1000}
-				value={this.state.value}
-				onChange={this.handleChange}
-				valueMapping={this.valueMapping} />
-			<div className="value">Value: {this.state.value}</div>
-		);
-	}
-}
-```
 
 ## Issues
 Feel free to contribute. Submit a Pull Request or open an issue for further discussion.
