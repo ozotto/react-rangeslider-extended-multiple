@@ -9,7 +9,7 @@ tests=tests
 
 rm -rf $lib
 
-NODE_ENV=production $webpack $src/index.js $lib/ReactRangesliderExtended.js
-NODE_ENV=production $webpack -p $src/index.js $lib/ReactRangesliderExtended.min.js
+NODE_ENV=production $webpack $src/index.js $lib/ReactRangesMultiple.js
+NODE_ENV=production $webpack -p $src/index.js $lib/ReactRangesMultiple.min.js
 
-printf "\nGzip: Minified size `gzip -c $lib/ReactRangesliderExtended.min.js | wc -c | awk {'print $1/1000'}` bytes\n"
+printf "\nGzip: Minified size `gzip -c $lib/ReactRangesMultiple.min.js | wc -c | awk {'print $1/1000'}` bytes\n"

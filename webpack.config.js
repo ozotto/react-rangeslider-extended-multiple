@@ -102,7 +102,7 @@ function build() {
 
 	  output: {
 	  	path: __dirname + '/lib',
-	  	library: 'ReactRangesliderExtended',
+	  	library: 'ReactRangesliderExtendedMultiple',
 	    libraryTarget: 'umd'
 	  },
 

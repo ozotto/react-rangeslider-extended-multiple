@@ -254,7 +254,7 @@ class Slider extends Component {
         fillSize = coords.fill - coordZero.fill;
         posLeft  = coordZero.fill;
         back = '#27ae60';
-        console.log('PosZero: '+posLeft);
+        //console.log('PosZero: '+posLeft);
     }else{
         fillSize = coordZero.fill - coords.fill;
         posLeft = coords.handle + 15;
