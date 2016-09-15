@@ -1,6 +1,6 @@
 {
   "name": "react-rangeslider-extended-multiple",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A lightweight react component that acts as a HTML5 input range slider polyfill and supports customizable segmented position to value mapping",
   "main": "lib/ReactRangesliderExtendedMultiple.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/ozotto/react-rangeslider-extended-multiple/issues"
   },
-  "homepage": "hhttps://github.com/ozotto/react-rangeslider-extended-multiple#readme",
+  "homepage": "https://github.com/ozotto/react-rangeslider-extended-multiple#readme",
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
     "babel-cli": "^6.14.0",
