@@ -1,6 +1,6 @@
 {
   "name": "react-rangeslider-extended-multiple",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A lightweight react component that acts as a HTML5 input range slider polyfill and supports customizable segmented position to value mapping",
   "main": "lib/ReactRangesliderExtendedMultiple.js",
   "scripts": {
