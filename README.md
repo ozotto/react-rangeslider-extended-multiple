@@ -1,8 +1,6 @@
 # React Rangeslider Extended [![NPM Package][npm_img]][npm_site]
 > A lightweight responsive react range slider component forked from [whoisandie/react-rangeslider](https://github.com/whoisandie/react-rangeslider).
 
-Check out [examples](https://oliverwehn.github.io/react-rangeslider-extended).
-
 ## Install
 Install via `npm` (use `--save` to include it in your package.json)
 
