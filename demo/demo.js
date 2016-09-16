@@ -13,7 +13,7 @@ class Demo extends Component {
 			flo: 10.2,
 			neg: -10,
 			valuesScale: [-100,0,100, 50, -50],
-			comparator: [-80, 70]
+			comparator: [35, 70]
 		};
 	}
 

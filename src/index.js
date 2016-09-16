@@ -244,7 +244,7 @@ class Slider extends Component {
       
       let value   = this.getPositionFromValue(obj);     
       let coord   = this.coordinates(value);
-      let handle  = 20;
+      let handle  = 15;
       let display = 'block'
       if(obj == -100) handle = 0; 
       if(obj == -100 || obj == 100) display = 'none';
@@ -273,7 +273,7 @@ class Slider extends Component {
   generateComparator = (comparator) => {
     let design;
 
-    let handle0, handle1  = 14; // size handle minus size triangle
+    let handle0 = 9, handle1  = 9; // size handle minus size triangle
     
     if(comparator[0] == -100 || comparator[0] == -100 ) handle0 = 0;
     if(comparator[1] == 100 || comparator[1] == 100) handle1 = 25;
@@ -332,7 +332,7 @@ class Slider extends Component {
           
       }else{
           fillSize = coord0.fill - coords.fill;
-          posLeft = coords.handle + 20;
+          posLeft = coords.handle + 15;
           back = '#ff3232';
       }
       
